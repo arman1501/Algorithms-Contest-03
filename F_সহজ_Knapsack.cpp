@@ -1,40 +1,55 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h> // All header file.
 using namespace std;
 
-int main() {
-    int T;
-    cin >> T;
+int main()
+{
+    int t;
+    cin >> t; // Declear a variable and input users.
 
-    while(T--) {
-        int N;
-        cin >> N;
-        vector<int> price(N), weight(N);
-        for(int i = 0; i < N; i++) cin >> price[i] >> weight[i];
+    while (t--) // All test case er jonne loop cholbe.
+    {
+        int n;
+        cin >> n; // Declear item number input from users.
 
-        int G;
-        cin >> G;
-        vector<int> MW(G);
-        for(int i = 0; i < G; i++) cin >> MW[i];
+        vector<int> price(n), weight(n); // Using veetor for all items and price weight .
 
-        int totalValue = 0;
+        // Use for loop for all items input from users.
+        for (int i = 0; i < n; i++)
+        {
+            cin >> price[i] >> weight[i];
+        }
 
-        // প্রতিটি person এর জন্য আলাদা knapsack solve
-        for(int p = 0; p < G; p++) {
-            int cap = MW[p];
-            vector<int> dp(cap + 1, 0); // dp array reset
+        int v;
+        cin >> v;          // Define total people and input from users.
+        vector<int> MW(v); // Per people maximum weight capacity (MW) input.
 
-            for(int i = 0; i < N; i++) {
-                for(int w = cap; w >= weight[i]; w--) {
-                    dp[w] = max(dp[w], dp[w - weight[i]] + price[i]);
+        // Use for loop for all people weight input from users.
+        for (int i = 0; i < v; i++)
+        {
+            cin >> MW[i];
+        }
+
+        int totalValue = 0; // Sob people er jonne total value.
+
+        // Per person er jonne alada alada knapsack solve hbe
+        for (int p = 0; p < v; p++)
+        {
+            int cap = MW[p];            // Maximum capacity for people.
+            vector<int> dp(cap + 1, 0); // DP array reset
+
+            // Using loop and ulta dik theke capacity komanu hoice.
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = cap; j >= weight[i]; j--)
+                {
+                    dp[j] = max(dp[j], dp[j - weight[i]] + price[i]);
                 }
             }
 
-            totalValue += dp[cap]; // এই person এর max value add
+            totalValue += dp[cap]; // Ei person er max value add
         }
 
-        cout << totalValue << endl;
+        cout << totalValue << endl; // printing the output.
     }
 
     return 0;
